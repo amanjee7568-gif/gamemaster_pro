@@ -1,0 +1,371 @@
+{
+  "package_name": "com.walturn.my_app",
+  "project_description": "A Flutter application built with Bloc/Cubit architecture to create a modular, maintainable mobile experience. The app features a startup screen for initialization, a home screen with counter functionality, and comprehensive state management. Key functionalities include flavor configuration (development and production), basic Bloc state management demonstrating core interaction patterns, and template components for rapid development.",
+  "architecture_overview": "Built using the Flutter Bloc/Cubit architecture pattern, the application separates concerns through dedicated Cubits for each feature. State management is handled via Cubit classes that emit immutable states using Equatable for efficient comparisons. The app utilizes simple Flutter navigation and demonstrates modern state management patterns with clear separation between UI and business logic.",
+  "files": [
+    {
+      "name": "lib/app/app.dart",
+      "description": "Root application widget that configures MaterialApp with theme settings, dark theme support, and sets StartupView as the initial screen",
+      "class_diagram": "@startuml\nclass App {\n  +build(BuildContext context)\n}\n\nnote right of App: Configures MaterialApp,\\ntheme, and initial route\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Builds the root MaterialApp with theme configuration and initial route",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart",
+        "my_app/features/startup/startup_view.dart",
+        "my_app/shared/app_colors.dart"
+      ]
+    },
+    {
+      "name": "lib/features/home/home_cubit.dart",
+      "description": "⚠️ TEMPLATE: A template Cubit for the Home screen that demonstrates basic Bloc/Cubit pattern with state management. Contains counter functionality as an example. This file should be completely replaced with actual business logic specific to your app's home screen requirements.",
+      "class_diagram": "@startuml\nclass HomeCubit {\n  +incrementCounter()\n  +resetCounter()\n  -_loadInitialData()\n}\n@enduml",
+      "methods": [
+        {
+          "name": "incrementCounter",
+          "description": "⚠️ TEMPLATE: Increments the counter state - replace with actual business logic",
+          "parameters": null,
+          "return_type": "void"
+        },
+        {
+          "name": "resetCounter",
+          "description": "⚠️ TEMPLATE: Resets the counter to zero - replace with actual business logic",
+          "parameters": null,
+          "return_type": "void"
+        },
+        {
+          "name": "_loadInitialData",
+          "description": "⚠️ TEMPLATE: Initializes the cubit with default state - replace with actual data loading",
+          "parameters": null,
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "flutter_bloc/flutter_bloc.dart",
+        "my_app/features/home/home_state.dart"
+      ]
+    },
+    {
+      "name": "lib/features/home/home_state.dart",
+      "description": "⚠️ TEMPLATE: State classes for the Home feature using Equatable for efficient state comparisons. Contains example states (HomeInitial, HomeLoaded) that should be replaced with actual state classes specific to your app's home screen needs.",
+      "class_diagram": "@startuml\nabstract class HomeState {\n  +props: List<Object>\n}\nclass HomeInitial extends HomeState\nclass HomeLoaded extends HomeState {\n  +counter: int\n}\n@enduml",
+      "methods": [
+        {
+          "name": "props",
+          "description": "⚠️ TEMPLATE: Equatable property for state comparison - adapt to your actual state properties",
+          "parameters": null,
+          "return_type": "List<Object>"
+        }
+      ],
+      "dependencies": [
+        "equatable/equatable.dart"
+      ]
+    },
+    {
+      "name": "lib/features/home/home_view.dart",
+      "description": "⚠️ TEMPLATE: A template home screen view that demonstrates Bloc/Cubit UI patterns with BlocProvider and BlocBuilder. Uses a 'Chef's Kitchen' theme as example content. This entire file should be replaced with your actual home screen UI and functionality.",
+      "class_diagram": "@startuml\nclass HomeView {\n  +build(BuildContext context)\n}\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "⚠️ TEMPLATE: Builds the home screen UI with BlocProvider and BlocBuilder - replace with actual UI",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart",
+        "flutter_bloc/flutter_bloc.dart",
+        "my_app/features/home/home_cubit.dart",
+        "my_app/features/home/home_state.dart",
+        "my_app/shared/app_colors.dart"
+      ]
+    },
+    {
+      "name": "lib/features/startup/startup_view.dart",
+      "description": "⚠️ TEMPLATE: A template startup/splash screen that demonstrates basic Flutter navigation patterns. Uses a 'Chef's Kitchen' theme as example content. This file should be replaced with your actual startup screen design and initialization logic.",
+      "class_diagram": "@startuml\nclass StartupView {\n  +createState()\n}\nclass _StartupViewState {\n  +initState()\n  +build(BuildContext context)\n  -_navigateToHome()\n}\n@enduml",
+      "methods": [
+        {
+          "name": "initState",
+          "description": "⚠️ TEMPLATE: Initializes the startup sequence - replace with actual startup logic",
+          "parameters": null,
+          "return_type": "void"
+        },
+        {
+          "name": "build",
+          "description": "⚠️ TEMPLATE: Builds the splash screen UI - replace with actual startup screen design",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_navigateToHome",
+          "description": "⚠️ TEMPLATE: Handles navigation to home screen - replace with actual startup tasks and navigation logic",
+          "parameters": null,
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart",
+        "my_app/features/home/home_view.dart",
+        "my_app/shared/app_colors.dart"
+      ]
+    },
+    {
+      "name": "lib/main/bootstrap.dart",
+      "description": "Provides a centralized bootstrapping mechanism for initializing the Flutter application with support for different flavors, configuration setup, and error tracking",
+      "class_diagram": "@startuml\nclass Bootstrap {\n  +{static} bootstrap(builder: Function, flavor: Flavor)\n  -setupInitialConfiguration()\n  -initializeErrorTracking()\n}\n@enduml",
+      "methods": [
+        {
+          "name": "bootstrap",
+          "description": "Primary initialization method for the application, responsible for setting up app configurations, dependency injection, and error tracking",
+          "parameters": [
+            "builder",
+            "flavor"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "dart:async",
+        "flutter/material.dart",
+        "flutter/services.dart",
+        "my_app/models/enums/flavor.dart",
+        "my_app/utils/flavors.dart"
+      ]
+    },
+    {
+      "name": "lib/main/main_production.dart",
+      "description": "This file is responsible for bootstrapping the production version of the application. It sets up the initial state and configuration for the app, ensuring it runs in the production environment.",
+      "class_diagram": "",
+      "methods": [
+        {
+          "name": "main",
+          "description": "The entry point of the application. It calls the `bootstrap` function to initialize the app and render the `App` widget.",
+          "parameters": null,
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "package:my_app/main/bootstrap.dart",
+        "package:my_app/models/enums/flavor.dart",
+        "package:my_app/app/app.dart"
+      ]
+    },
+    {
+      "name": "lib/main/main_development.dart",
+      "description": "This Dart file is responsible for bootstrapping the development version of the Flutter application. It sets up the application's entry point and configures the application flavor to be 'development'.",
+      "class_diagram": "",
+      "methods": [
+        {
+          "name": "main",
+          "description": "The main entry point of the application that initializes the development build of the app.",
+          "parameters": null,
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "package:my_app/main/bootstrap.dart",
+        "package:my_app/models/enums/flavor.dart",
+        "package:my_app/app/app.dart"
+      ]
+    },
+    {
+      "name": "lib/models/enums/flavor.dart",
+      "description": "This file defines an enum called `Flavor` with two values: `production` and `development`. It represents the different flavors or environments that the application can run in.",
+      "class_diagram": "@startuml\nenum Flavor {\n  production\n  development\n}\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/utils/flavors.dart",
+      "description": "Manages application flavor configuration, allowing runtime identification of deployment environment (development vs production) to enable environment-specific behaviors and configurations",
+      "class_diagram": "@startuml\nclass Flavors {\n  +{static} flavor: Flavor\n  +{static} isDev: bool\n  +{static} isProd: bool\n}\n@enduml",
+      "methods": [
+        {
+          "name": "Flavors",
+          "description": "Private singleton constructor to ensure single flavor configuration instance",
+          "parameters": null,
+          "return_type": null
+        },
+        {
+          "name": "isDev",
+          "description": "Checks if current application flavor is development environment",
+          "parameters": null,
+          "return_type": "bool"
+        },
+        {
+          "name": "isProd",
+          "description": "Checks if current application flavor is production environment",
+          "parameters": null,
+          "return_type": "bool"
+        }
+      ],
+      "dependencies": [
+        "package:my_app/models/enums/flavor.dart"
+      ]
+    },
+    {
+      "name": "lib/shared/app_colors.dart",
+      "description": "A comprehensive color management file that defines a modern, sophisticated color palette for the entire application, providing consistent styling and theming across different UI components and supporting both light and dark modes.",
+      "class_diagram": "@startuml\nclass AppColors {\n  + {static} kcPrimaryColor\n  + {static} kcSecondaryColor\n  + {static} kcPrimaryGradient\n}\n@enduml",
+      "methods": [
+        {
+          "name": "N/A",
+          "description": "Constants file with predefined color and gradient definitions",
+          "parameters": null,
+          "return_type": null
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/shared/button.dart",
+      "description": "A reusable custom button component that provides different visual variants (primary, secondary, outline) with consistent styling across the application.",
+      "class_diagram": "@startuml\nclass CustomButton {\n  +text: String\n  +onPressed: VoidCallback?\n  +variant: ButtonVariant\n  +icon: IconData?\n  +build(): Widget\n}\nenum ButtonVariant {\n  primary\n  secondary\n  outline\n}\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Renders the custom button with specified variant styling and optional icon",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart",
+        "my_app/shared/app_colors.dart"
+      ]
+    },
+    {
+      "name": "lib/shared/card.dart",
+      "description": "A customizable card component library providing flexible card implementations for Flutter applications with various styling options.",
+      "class_diagram": "@startuml\nclass CustomCard {\n  +child: Widget\n  +onTap: VoidCallback?\n  +build(): Widget\n}\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Renders a customizable card widget with optional tap functionality",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/shared/tab_bar.dart",
+      "description": "A customizable tab bar component for navigation with modern UI design and interactive features.",
+      "class_diagram": "@startuml\nclass CustomTabBar {\n  +tabs: List<String>\n  +selectedIndex: int\n  +onTabSelected: ValueChanged<int>\n  +build(): Widget\n}\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Renders the tab bar with animated indicators and custom styling",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/shared/text_style.dart",
+      "description": "A typography configuration file that defines a systematic set of text styles for various UI components, providing consistent and responsive typography across the application.",
+      "class_diagram": "@startuml\nclass TextStyles {\n  + {static} heading1Style\n  + {static} bodyStyle\n  + {static} buttonStyle\n}\n@enduml",
+      "methods": [
+        {
+          "name": "N/A",
+          "description": "Constants file with predefined text style definitions",
+          "parameters": null,
+          "return_type": null
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/shared/ui_helpers.dart",
+      "description": "A utility file providing responsive UI sizing and spacing helpers for consistent layout across different screen sizes in a Flutter application.",
+      "class_diagram": "@startuml\nclass UIHelpers {\n  + {static} screenWidth()\n  + {static} screenHeight()\n  + {static} spacing\n}\n@enduml",
+      "methods": [
+        {
+          "name": "screenWidth",
+          "description": "Retrieves the total screen width for the current device context",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "screenHeight",
+          "description": "Retrieves the total screen height for the current device context",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/services/firebase_auth_service.dart",
+      "description": "⚠️ TEMPLATE: Commented template for Firebase Authentication service. This file is entirely commented out and should only be uncommented when Firebase Authentication is needed in the project. Contains template authentication methods and setup instructions.",
+      "class_diagram": "@startuml\nnote as N1\n  File is completely commented out\n  Uncomment when Firebase Auth is needed\nend note\n@enduml",
+      "methods": [],
+      "dependencies": [
+        "firebase_auth/firebase_auth.dart (commented)"
+      ]
+    },
+    {
+      "name": "lib/services/firestore_service.dart",
+      "description": "⚠️ TEMPLATE: Commented template for Firestore database service. This file is entirely commented out and should only be uncommented when Firestore database functionality is needed in the project. Contains template CRUD operations and setup instructions.",
+      "class_diagram": "@startuml\nnote as N1\n  File is completely commented out\n  Uncomment when Firestore is needed\nend note\n@enduml",
+      "methods": [],
+      "dependencies": [
+        "cloud_firestore/cloud_firestore.dart (commented)"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "flutter",
+      "version": "sdk: flutter",
+      "purpose": "Flutter framework"
+    },
+    {
+      "name": "flutter_bloc",
+      "version": "^8.1.3",
+      "purpose": "State management using Bloc/Cubit pattern"
+    },
+    {
+      "name": "equatable",
+      "version": "^2.0.5",
+      "purpose": "Efficient state comparison for Bloc states"
+    }
+  ],
+  "sequence_diagram": "@startuml\nactor User\nparticipant App\nparticipant StartupView\nparticipant HomeView\nparticipant HomeCubit\nparticipant HomeState\n\nUser -> App: Launch App\nApp -> StartupView: Initialize\nStartupView -> StartupView: Wait 2 seconds\nStartupView -> HomeView: Navigate\nHomeView -> HomeCubit: Create Cubit\nHomeCubit -> HomeState: Emit HomeLoaded\nUser -> HomeView: Interact\nUser -> HomeCubit: Increment Counter\nHomeCubit -> HomeState: Emit New State\nHomeState -> HomeView: Update UI\n@enduml",
+  "state_management_flow": "State management is implemented using the Flutter Bloc/Cubit pattern. The HomeCubit extends Cubit<HomeState> and manages state through emit() calls. States are immutable classes that extend Equatable for efficient comparisons. The UI uses BlocBuilder to rebuild when state changes occur. This pattern provides clear separation between business logic (Cubit) and UI (View), with reactive state updates.",
+  "navigation_flow": "Navigation uses standard Flutter navigation with Navigator.pushReplacement. The StartupView automatically navigates to HomeView after a 2-second delay. This simple navigation approach is suitable for basic apps but can be enhanced with more sophisticated routing solutions as the app grows."
+}
