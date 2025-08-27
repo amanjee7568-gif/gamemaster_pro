@@ -1,15 +1,17 @@
 # GameMaster Pro
 
-A sophisticated Flutter application built with Bloc/Cubit architecture to create a modular, maintainable mobile experience. The app features a startup screen for initialization, a home screen with counter functionality, and comprehensive state management. Key functionalities include flavor configuration (development and production), basic Bloc state management demonstrating core interaction patterns, and template components for rapid development.
+A sophisticated Flutter application built with Bloc/Cubit architecture to create a modular, maintainable mobile experience. The app features a startup screen for initialization, a home screen with counter functionality, comprehensive state management, and additional features like a support chat interface and games listing. Key capabilities include flavor configuration, modern state management, and template components for rapid development.
 
 ## 🌟 Features
 
-- **Bloc/Cubit Architecture**: Implements clean state management using Flutter Bloc pattern
-- **Flavor Configuration**: Supports both development and production environments
+- **Bloc/Cubit Architecture**: Implements clean state management using Flutter Bloc pattern across multiple features
+- **Flavor Configuration**: Supports both development and production environments with distinct entry points
 - **Template Components**: Pre-built UI components (buttons, cards, tab bars) for rapid development
 - **Responsive Design**: Utilizes responsive UI helpers for consistent layout across devices
 - **Modern Styling**: Sophisticated color palette and typography system
 - **Template Services**: Includes commented templates for Firebase Authentication and Firestore integration
+- **Support Chat**: Integrated customer support chat with AI-powered responses via OpenAI and Telegram integration
+- **Games Management**: Dedicated feature for browsing and selecting games with state management
 
 ## 🛠️ Getting Started
 
@@ -47,8 +49,15 @@ lib/
 │   │   ├── home_cubit.dart   # Home state management
 │   │   ├── home_state.dart   # Home state definitions
 │   │   └── home_view.dart    # Home screen UI
-│   └── startup/              # Initial loading screen
-│       └── startup_view.dart # Startup screen implementation
+│   ├── startup/              # Initial loading screen
+│   │   └── startup_view.dart # Startup screen implementation
+│   ├── support/              # Customer support chat feature
+│   │   ├── support_cubit.dart# Support feature logic
+│   │   ├── support_state.dart# Support state definitions
+│   │   └── support_view.dart # Support chat UI
+│   └── games/                # Games listing feature
+│       ├── games_cubit.dart  # Games state management
+│       └── games_state.dart  # Games state definitions
 ├── main/
 │   ├── bootstrap.dart        # Application bootstrapping
 │   ├── main_development.dart # Development entry point
@@ -56,9 +65,11 @@ lib/
 ├── models/
 │   └── enums/
 │       └── flavor.dart       # Application flavor definitions
-├── services/                 # Template service implementations
+├── services/                 # External service integrations
 │   ├── firebase_auth_service.dart # Firebase Auth template
-│   └── firestore_service.dart     # Firestore template
+│   ├── firestore_service.dart     # Firestore template
+│   ├── openai_service.dart        # OpenAI integration
+│   └── telegram_service.dart      # Telegram bot API integration
 ├── shared/                   # Shared components and utilities
 │   ├── app_colors.dart       # Color palette definitions
 │   ├── button.dart           # Custom button component
@@ -72,7 +83,7 @@ lib/
 
 ### Key Patterns
 
-- **State Management**: Flutter Bloc/Cubit pattern for reactive state management
+- **State Management**: Flutter Bloc/Cubit pattern for reactive state management across features
 - **Dependency Injection**: Centralized bootstrapping through `bootstrap.dart`
 - **Separation of Concerns**: Clear division between UI, business logic, and state management
 - **Template System**: Reusable component templates for rapid development

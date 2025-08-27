@@ -34,7 +34,7 @@ TextStyle bodySmallStyle(BuildContext context) => const TextStyle(
     );
 
 // Button Styles
-TextStyle buttonTextStyle(BuildContext context) => const TextStyle(
+TextStyle buttonStyle(BuildContext context) => const TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w600,
       color: Colors.white,

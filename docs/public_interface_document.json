@@ -1,16 +1,16 @@
 {
   "package_name": "com.walturn.my_app",
-  "project_description": "A Flutter application built with Bloc/Cubit architecture to create a modular, maintainable mobile experience. The app features a startup screen for initialization, a home screen with counter functionality, and comprehensive state management. Key functionalities include flavor configuration (development and production), basic Bloc state management demonstrating core interaction patterns, and template components for rapid development.",
-  "architecture_overview": "The application is structured using the Flutter Bloc/Cubit architecture pattern, with dedicated Cubits for feature management and state handled via immutable, Equatable-based state classes. The design emphasizes clear separation of concerns between UI components and business logic, utilizing modern state management patterns and providing a scalable foundation for app development.",
+  "project_description": "A Flutter application built with Bloc/Cubit architecture to create a modular, maintainable mobile experience. The app features a startup screen for initialization, a home screen with counter functionality, comprehensive state management, and additional features like a support chat interface and games listing. Key capabilities include flavor configuration, modern state management, and template components for rapid development.",
+  "architecture_overview": "The application is structured using the Flutter Bloc/Cubit architecture pattern, with dedicated Cubits for feature management and state handled via immutable, Equatable-based state classes. The design emphasizes clear separation of concerns between UI components and business logic, utilizing modern state management patterns and providing a scalable, modular foundation for app development.",
   "files": [
     {
       "name": "lib/app/app.dart",
-      "description": "Main application entry point that configures and initializes the Flutter app with theme settings and initial screen routing. This file serves as the root widget that bootstraps the entire application.",
-      "class_diagram": "@startuml\nclass App {\n  +Widget build(BuildContext context)\n}\nnote right of App\n  Main application widget that configures\n  MaterialApp with theme and routing\nend note\nApp --> \"1\" MaterialApp : creates\nApp --> \"1\" StartupView : routes to\nApp --> ThemeData : configures\n@enduml",
+      "description": "Main application entry point that configures and initializes the Flutter app with theme settings and routing. This file serves as the root widget that bootstraps the entire application, setting up global theme configuration and defining the initial screen and navigation routes.",
+      "class_diagram": "@startuml\nclass App {\n  +Widget build(BuildContext context)\n}\nnote right: Main application entry point\nApp --> MaterialApp : creates\nApp --> StartupView : initial route\nApp --> SupportView : route '/support'\nApp --> ThemeData : configures\n@enduml",
       "methods": [
         {
           "name": "build",
-          "description": "Constructs the main MaterialApp widget with theme configuration and sets the initial home screen",
+          "description": "Constructs the main MaterialApp widget with theme configuration, initial screen, and route definitions",
           "parameters": [
             "BuildContext context"
           ],
@@ -289,18 +289,93 @@
     },
     {
       "name": "lib/shared/text_style.dart",
-      "description": "A typography configuration file that defines a systematic set of text styles for various UI components, providing consistent and responsive typography across the application.",
-      "class_diagram": "@startuml\nclass TextStyles {\n  + {static} heading1Style\n  + {static} bodyStyle\n  + {static} buttonStyle\n}\n@enduml",
+      "description": "This file provides a centralized collection of predefined text styles for consistent typography across the application. It defines standardized styles for headings, body text, buttons, and special text elements like links and status messages. The file ensures visual consistency and maintainability by centralizing all text styling definitions in one place.",
+      "class_diagram": "@startuml\nhide empty members\nclass TextStyleManager {\n  +TextStyle heading1Style(BuildContext context)\n  +TextStyle heading2Style(BuildContext context)\n  +TextStyle heading3Style(BuildContext context)\n  +TextStyle bodyStyle(BuildContext context)\n  +TextStyle bodySmallStyle(BuildContext context)\n  +TextStyle buttonStyle(BuildContext context)\n  +TextStyle linkStyle(BuildContext context)\n  +TextStyle errorStyle(BuildContext context)\n  +TextStyle successStyle(BuildContext context)\n  +TextStyle subtitleStyle(BuildContext context)\n}\nTextStyleManager --> \"uses\" AppColors : kcPrimaryTextColor, kcSecondaryTextColor, kcPrimaryColor, kcErrorColor, kcSuccessColor\nTextStyleManager --> Flutter : TextStyle, BuildContext\n@enduml",
       "methods": [
         {
-          "name": "N/A",
-          "description": "Constants file with predefined text style definitions",
-          "parameters": null,
-          "return_type": null
+          "name": "heading1Style",
+          "description": "Returns the primary heading style with large font size and bold weight for main titles",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "TextStyle"
+        },
+        {
+          "name": "heading2Style",
+          "description": "Returns the secondary heading style for section titles and important headings",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "TextStyle"
+        },
+        {
+          "name": "heading3Style",
+          "description": "Returns the tertiary heading style for sub-section titles",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "TextStyle"
+        },
+        {
+          "name": "bodyStyle",
+          "description": "Returns the standard body text style for regular content",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "TextStyle"
+        },
+        {
+          "name": "bodySmallStyle",
+          "description": "Returns the small body text style for secondary content and descriptions",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "TextStyle"
+        },
+        {
+          "name": "buttonStyle",
+          "description": "Returns the text style for button labels with bold white text",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "TextStyle"
+        },
+        {
+          "name": "linkStyle",
+          "description": "Returns the text style for clickable links with underlined primary color text",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "TextStyle"
+        },
+        {
+          "name": "errorStyle",
+          "description": "Returns the text style for error messages with red colored text",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "TextStyle"
+        },
+        {
+          "name": "successStyle",
+          "description": "Returns the text style for success messages with green colored text",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "TextStyle"
+        },
+        {
+          "name": "subtitleStyle",
+          "description": "Legacy alias for bodySmallStyle, maintained for backward compatibility",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "TextStyle"
         }
       ],
       "dependencies": [
-        "flutter/material.dart"
+        "package:flutter/material.dart",
+        "package:my_app/shared/app_colors.dart"
       ]
     },
     {
@@ -346,6 +421,183 @@
       "dependencies": [
         "cloud_firestore/cloud_firestore.dart (commented)"
       ]
+    },
+    {
+      "name": "lib/features/support/support_view.dart",
+      "description": "This file provides the user interface for the support chat feature, enabling users to communicate with support agents through a messaging interface. It displays conversation history and allows users to send new messages.",
+      "class_diagram": "@startuml\nclass SupportView {\n  - TextEditingController _controller\n  + Widget build(BuildContext context)\n  - Widget _buildMessageBubble(Message message, BuildContext context)\n  - Widget _buildInputArea(BuildContext context)\n}\n\nclass Message {\n  + String text\n  + MessageSender sender\n  + DateTime timestamp\n}\n\nenum MessageSender {\n  user\n  bot\n}\n\nSupportView --> Message : displays\nSupportView --> SupportCubit : uses\nSupportView --> SupportState : reacts to\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Constructs the support view UI with message history and input area",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildMessageBubble",
+          "description": "Creates a styled message bubble for displaying individual chat messages",
+          "parameters": [
+            "Message message",
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildInputArea",
+          "description": "Creates the message input area with text field and send button",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:flutter_bloc/flutter_bloc.dart",
+        "package:my_app/features/support/support_cubit.dart",
+        "package:my_app/features/support/support_state.dart",
+        "package:my_app/shared/app_colors.dart",
+        "package:my_app/shared/text_style.dart"
+      ]
+    },
+    {
+      "name": "lib/features/support/support_state.dart",
+      "description": "This file defines the state management classes for the support feature using the BLoC pattern. It provides a clear enumeration of all possible states that the support feature can be in, enabling predictable UI updates and handling of asynchronous operations like loading support data, displaying errors, and showing loaded content.",
+      "class_diagram": "@startuml\nclass SupportState {\n  +List<Object> props\n}\n\nclass SupportInitial\n\nclass SupportLoading\n\nclass SupportLoaded\n\nclass SupportError {\n  +String message\n  +List<Object> props\n}\n\nSupportState <|-- SupportInitial\nSupportState <|-- SupportLoading\nSupportState <|-- SupportLoaded\nSupportState <|-- SupportError\n@enduml",
+      "methods": [
+        {
+          "name": "get props",
+          "description": "Provides the list of properties that define the state's identity for equality comparison",
+          "parameters": null,
+          "return_type": "List<Object>"
+        }
+      ],
+      "dependencies": [
+        "package:equatable/equatable.dart"
+      ]
+    },
+    {
+      "name": "lib/features/games/games_cubit.dart",
+      "description": "This file manages the state and business logic for the games feature, providing a centralized way to load, select, and manage available games in the application. It serves as the data layer for the games UI, handling game listings and user selections.",
+      "class_diagram": "@startuml\nclass GamesCubit {\n  +GamesCubit()\n  -_loadGames()\n  +selectGame(Game game)\n  +clearSelection()\n}\n\nclass GamesState {\n  +GamesInitial\n  +GamesLoading\n  +GamesLoaded\n}\n\nclass Game {\n  +String id\n  +String title\n  +String description\n  +String category\n  +String imageUrl\n}\n\nGamesCubit --> GamesState\nGamesCubit --> Game\nGamesCubit ..> flutter_bloc\nGamesCubit ..> \"games_state.dart\"\n@enduml",
+      "methods": [
+        {
+          "name": "GamesCubit",
+          "description": "Constructor that initializes the cubit and automatically loads games data",
+          "parameters": null,
+          "return_type": null
+        },
+        {
+          "name": "_loadGames",
+          "description": "Private method that loads the list of available games and emits the loaded state",
+          "parameters": null,
+          "return_type": null
+        },
+        {
+          "name": "selectGame",
+          "description": "Selects a specific game and updates the state with the selected game",
+          "parameters": [
+            "Game game"
+          ],
+          "return_type": null
+        },
+        {
+          "name": "clearSelection",
+          "description": "Clears the currently selected game and resets the selection state",
+          "parameters": null,
+          "return_type": null
+        }
+      ],
+      "dependencies": [
+        "flutter_bloc",
+        "package:my_app/features/games/games_state.dart"
+      ]
+    },
+    {
+      "name": "lib/services/openai_service.dart",
+      "description": "A service class that provides integration with OpenAI's GPT models to generate AI-powered responses for customer support queries in a gaming platform context.",
+      "class_diagram": "@startuml\nclass OpenAiService {\n  -String _apiKey\n  -String _baseUrl\n  +Future<String> generateResponse(String prompt)\n}\nnote right of OpenAiService\n  Integrates with OpenAI API\n  to generate customer support responses\nend note\n@enduml",
+      "methods": [
+        {
+          "name": "generateResponse",
+          "description": "Generates an AI-powered response for a given user prompt by calling the OpenAI Chat Completions API with a predefined system context for gaming platform customer support",
+          "parameters": [
+            "prompt"
+          ],
+          "return_type": "Future<String>"
+        }
+      ],
+      "dependencies": [
+        "dart:convert",
+        "package:http/http.dart"
+      ]
+    },
+    {
+      "name": "lib/features/games/games_state.dart",
+      "description": "This file defines the state management classes for the games feature using the BLoC pattern. It represents different states that the games UI can be in (loading, loaded, error) and includes the Game data model. This enables predictable state management for game listings and selections.",
+      "class_diagram": "@startuml\nclass GamesState {\n  +List<Object> props\n}\n\nclass GamesInitial {\n}\n\nclass GamesLoading {\n}\n\nclass GamesLoaded {\n  +List<Game> games\n  +Game? selectedGame\n  +copyWith(List<Game>?, Game?) : GamesLoaded\n}\n\nclass GamesError {\n  +String message\n}\n\nclass Game {\n  +String id\n  +String title\n  +String description\n  +String category\n  +String imageUrl\n}\n\nGamesState <|-- GamesInitial\nGamesState <|-- GamesLoading\nGamesState <|-- GamesLoaded\nGamesState <|-- GamesError\n@enduml",
+      "methods": [
+        {
+          "name": "copyWith",
+          "description": "Creates a new GamesLoaded instance with updated values, enabling immutable state updates",
+          "parameters": [
+            "List<Game>? games",
+            "Game? selectedGame"
+          ],
+          "return_type": "GamesLoaded"
+        }
+      ],
+      "dependencies": [
+        "package:equatable/equatable.dart"
+      ]
+    },
+    {
+      "name": "lib/services/telegram_service.dart",
+      "description": "A service class that provides integration with Telegram Bot API for sending messages and retrieving updates. This enables the application to communicate with users through Telegram bots and process incoming messages.",
+      "class_diagram": "@startuml\nclass TelegramService {\n  -String _botToken\n  -String _chatId\n  -String _baseUrl\n  +Future<void> sendMessage(String text)\n  +Future<List<dynamic>> getMessages()\n}\n\nnote right of TelegramService\n  Depends on http package for API calls\n  Uses TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID environment variables\nend note\n\nTelegramService --> \"http\" : uses\n@enduml",
+      "methods": [
+        {
+          "name": "sendMessage",
+          "description": "Sends a text message to a specified Telegram chat using the configured bot token and chat ID",
+          "parameters": [
+            "text"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getMessages",
+          "description": "Retrieves message updates from the Telegram bot, allowing the application to process incoming messages",
+          "parameters": [],
+          "return_type": "Future<List<dynamic>>"
+        }
+      ],
+      "dependencies": [
+        "package:http/http.dart",
+        "dart:convert"
+      ]
+    },
+    {
+      "name": "lib/features/support/support_cubit.dart",
+      "description": "This file contains the SupportCubit class which manages the state and business logic for the customer support chat feature. It handles user message submission, integrates with external services (Telegram and OpenAI), and maintains the conversation history.",
+      "class_diagram": "@startuml\nclass SupportCubit {\n  -List<Message> messages\n  -TelegramService _telegramService\n  -OpenAiService _openAiService\n  +SupportCubit()\n  +void sendMessage(String text)\n}\n\nSupportCubit --> \"1\" TelegramService\nSupportCubit --> \"1\" OpenAiService\nSupportCubit --> \"1\" SupportState\nnote right of SupportCubit::sendMessage\n  Core business method that:\n  1. Adds user message to chat history\n  2. Sends message to Telegram support\n  3. Gets AI-generated response\n  4. Adds bot response to chat\n  5. Manages loading/error states\nend note\n@enduml",
+      "methods": [
+        {
+          "name": "sendMessage",
+          "description": "Handles the complete flow of sending a user message, including forwarding to Telegram support, getting an AI-generated response, updating the chat history, and managing the UI state through different stages (loading, success, error).",
+          "parameters": [
+            "String text"
+          ],
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "package:flutter_bloc/flutter_bloc.dart",
+        "package:my_app/features/support/support_state.dart",
+        "package:my_app/services/openai_service.dart",
+        "package:my_app/services/telegram_service.dart"
+      ]
     }
   ],
   "dependencies": [
@@ -365,7 +617,7 @@
       "purpose": "Efficient state comparison for Bloc states"
     }
   ],
-  "sequence_diagram": "@startuml\nactor User\nparticipant App\nparticipant StartupView\nparticipant HomeView\nparticipant HomeCubit\nparticipant HomeState\n\nUser -> App: Launch App\nApp -> StartupView: Initialize\nStartupView -> StartupView: Wait 2 seconds\nStartupView -> HomeView: Navigate\nHomeView -> HomeCubit: Create Cubit\nHomeCubit -> HomeState: Emit HomeLoaded\nUser -> HomeView: Interact\nUser -> HomeCubit: Increment Counter\nHomeCubit -> HomeState: Emit New State\nHomeState -> HomeView: Update UI\n@enduml",
-  "state_management_flow": "State management is implemented using the Flutter Bloc/Cubit pattern. The HomeCubit extends Cubit<HomeState> and manages state through emit() calls. States are immutable classes that extend Equatable for efficient comparisons. The UI uses BlocBuilder to rebuild when state changes occur. This pattern provides clear separation between business logic (Cubit) and UI (View), with reactive state updates.",
-  "navigation_flow": "Navigation uses standard Flutter navigation with Navigator.pushReplacement. The StartupView automatically navigates to HomeView after a 2-second delay. This simple navigation approach is suitable for basic apps but can be enhanced with more sophisticated routing solutions as the app grows."
+  "sequence_diagram": "@startuml\nactor User\nparticipant App\nparticipant StartupView\nparticipant HomeView\nparticipant SupportView\nparticipant GamesCubit\n\nUser -> App: Launch App\nApp -> StartupView: Initialize\nStartupView -> HomeView: Navigate\nUser -> HomeView: View Games\nHomeView -> GamesCubit: Load Games\nGamesCubit -> HomeView: Display Game List\nUser -> SupportView: Open Support Chat\nUser -> SupportView: Send Message\nSupportView -> OpenAIService: Generate Response\nOpenAIService -> SupportView: Return AI Response\n@enduml",
+  "state_management_flow": "State management is implemented using the Flutter Bloc/Cubit pattern across multiple features. Each feature (Home, Support, Games) has a dedicated Cubit that manages its state. States are immutable classes extending Equatable, providing efficient comparisons. State transitions occur through emit() calls, with BlocBuilder and BlocListener widgets enabling reactive UI updates. The approach ensures clean separation of concerns and predictable state management.",
+  "navigation_flow": "Navigation is managed through standard Flutter routing with predefined routes in the App widget. The startup view automatically transitions to the home view, while additional routes like '/support' and potentially '/games' are configured. The current implementation uses Navigator for screen transitions, with potential for future enhancement using more advanced routing solutions like GoRouter or AutoRoute."
 }

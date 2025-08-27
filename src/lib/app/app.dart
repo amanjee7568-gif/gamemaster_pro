@@ -8,7 +8,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My App',
+      title: 'Gaming Platform',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: kcPrimaryColor,
@@ -18,6 +18,9 @@ class App extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const StartupView(),
+      routes: {
+        '/support': (context) => const SupportView(),
+      },
     );
   }
 }
