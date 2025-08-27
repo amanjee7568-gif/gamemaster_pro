@@ -1,16 +1,7 @@
-// ============================================================================
-// ⚠️ WARNING: THIS IS JUST A TEMPLATE STARTUP VIEW - PLEASE REPLACE ENTIRELY
-// This file shows basic splash screen pattern and should be completely rewritten
-// based on your specific startup/splash screen requirements.
-// DO NOT KEEP ANY OF THIS TEMPLATE CODE IN YOUR FINAL APP!
-// The "Chef's Kitchen" theme is just for demonstration purposes!
-// ============================================================================
-
 import 'package:flutter/material.dart';
 import 'package:my_app/features/home/home_view.dart';
 import 'package:my_app/shared/app_colors.dart';
 
-// ⚠️ TEMPLATE: Replace with your actual startup widget
 class StartupView extends StatefulWidget {
   const StartupView({super.key});
 
@@ -22,17 +13,14 @@ class _StartupViewState extends State<StartupView> {
   @override
   void initState() {
     super.initState();
-    _navigateToHome(); // ⚠️ TEMPLATE: Replace with your startup logic
+    _initializeApp();
   }
 
-  // ⚠️ TEMPLATE: Replace with your actual navigation logic
-  void _navigateToHome() async {
-    // ⚠️ TEMPLATE: Replace with your actual startup tasks:
-    // - Initialize services
-    // - Load configuration
-    // - Check authentication
-    // - etc.
+  Future<void> _initializeApp() async {
+    // Simulate initialization tasks
     await Future.delayed(const Duration(seconds: 2));
+
+    // Navigate to home screen
     if (mounted) {
       Navigator.pushReplacement(
         context,
@@ -43,16 +31,15 @@ class _StartupViewState extends State<StartupView> {
 
   @override
   Widget build(BuildContext context) {
-    // ⚠️ TEMPLATE: Replace with your actual startup screen design
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-            gradient: kcPrimaryGradient), // ⚠️ TEMPLATE: Change gradient
+          gradient: kcPrimaryGradient,
+        ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // ⚠️ TEMPLATE: Replace with your actual app logo/icon
               Container(
                 width: 100,
                 height: 100,
@@ -68,15 +55,14 @@ class _StartupViewState extends State<StartupView> {
                   ],
                 ),
                 child: const Icon(
-                  Icons.restaurant_menu, // ⚠️ TEMPLATE: Change to your app icon
+                  Icons.gamepad,
                   size: 60,
                   color: kcPrimaryColor,
                 ),
               ),
               const SizedBox(height: 32),
-              // ⚠️ TEMPLATE: Replace with your actual app name
               const Text(
-                'Chef\'s Kitchen', // ⚠️ TEMPLATE: Change to your app name
+                'Gaming Platform',
                 style: TextStyle(
                   fontSize: 32,
                   color: Colors.white,
@@ -85,9 +71,8 @@ class _StartupViewState extends State<StartupView> {
                 ),
               ),
               const SizedBox(height: 12),
-              // ⚠️ TEMPLATE: Replace with your actual tagline
               Text(
-                'Please wait, your app is still cooking, if you still encounter this then please made another requests to the chat :D', // ⚠️ TEMPLATE: Change tagline
+                'The ultimate gaming experience',
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.white.withValues(alpha: 0.9),
@@ -97,14 +82,12 @@ class _StartupViewState extends State<StartupView> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 64),
-              // ⚠️ TEMPLATE: Replace with your actual loading indicator
               const CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
               ),
               const SizedBox(height: 24),
-              // ⚠️ TEMPLATE: Replace with your actual loading message
               Text(
-                'Please wait... your code is still cooking! 🔥', // ⚠️ TEMPLATE: Change loading message
+                'Loading your gaming experience...',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.white.withValues(alpha: 0.8),
@@ -119,13 +102,3 @@ class _StartupViewState extends State<StartupView> {
     );
   }
 }
-
-// ============================================================================
-// ⚠️ REMINDER: Replace this entire file with your actual startup screen
-// The Chef's Kitchen theme above is just to demonstrate basic startup patterns and should not be used
-// in your production app. Replace with your actual:
-// - Real app branding
-// - Actual startup logic
-// - Proper initialization tasks
-// - Your app's specific splash screen design
-// ============================================================================

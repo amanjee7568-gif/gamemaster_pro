@@ -19,7 +19,7 @@ class App extends StatelessWidget {
       ),
       home: const StartupView(),
       routes: {
-        '/support': (context) => const SupportView(),
+        // Add routes for other views as needed
       },
     );
   }

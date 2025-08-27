@@ -1,13 +1,6 @@
-// ============================================================================
-// ⚠️ WARNING: THIS IS JUST A TEMPLATE HOME STATE - PLEASE REPLACE ENTIRELY
-// This file shows basic state classes and should be completely rewritten
-// based on your specific home screen state requirements.
-// DO NOT KEEP ANY OF THIS TEMPLATE CODE IN YOUR FINAL APP!
-// ============================================================================
-
 import 'package:equatable/equatable.dart';
 
-// ⚠️ TEMPLATE: Replace with your actual state base class
+// Base state class for home feature
 abstract class HomeState extends Equatable {
   const HomeState();
 
@@ -15,32 +8,50 @@ abstract class HomeState extends Equatable {
   List<Object> get props => [];
 }
 
-// ⚠️ TEMPLATE: Replace with your actual initial state
+// Initial state when the app starts
 class HomeInitial extends HomeState {
   const HomeInitial();
 }
 
-// ⚠️ TEMPLATE: Replace with your actual loaded state
-class HomeLoaded extends HomeState {
-  // ⚠️ TEMPLATE: Replace counter with your actual data fields:
-  // - User data
-  // - API responses
-  // - App-specific state
-  // - etc.
-  final int counter;
-
-  const HomeLoaded({required this.counter});
-
-  @override
-  List<Object> get props => [counter];
+// State when user data is loading
+class HomeLoading extends HomeState {
+  const HomeLoading();
 }
 
-// ============================================================================
-// ⚠️ REMINDER: Replace this entire file with your actual home states
-// The states above are just to demonstrate basic state management and should not be used
-// in your production app. Add proper state classes specific to your app's home screen needs:
-// - Loading states
-// - Error states  
-// - Success states with real data
-// - etc.
-// ============================================================================
+// State when user data is successfully loaded
+class HomeLoaded extends HomeState {
+  final String username;
+  final int gamesPlayed;
+  final int achievements;
+
+  const HomeLoaded({
+    required this.username,
+    required this.gamesPlayed,
+    required this.achievements,
+  });
+
+  @override
+  List<Object> get props => [username, gamesPlayed, achievements];
+
+  HomeLoaded copyWith({
+    String? username,
+    int? gamesPlayed,
+    int? achievements,
+  }) {
+    return HomeLoaded(
+      username: username ?? this.username,
+      gamesPlayed: gamesPlayed ?? this.gamesPlayed,
+      achievements: achievements ?? this.achievements,
+    );
+  }
+}
+
+// State when there's an error
+class HomeError extends HomeState {
+  final String message;
+
+  const HomeError({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}

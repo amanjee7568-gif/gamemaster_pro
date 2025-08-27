@@ -1,93 +1,112 @@
-// ==========================================================
-// NOTE FOR AI AGENT
-// ==========================================================
-// This is a Firestore service template for the Stacked architecture.
-// Uncomment this file only if Firestore is needed in your project.
-//
-// NOTE FOR AI: Replace the example model imports with your actual models.
-// import 'package:your_app/models/your_model.dart';
-// import 'package:your_app/models/enums/your_enum.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-// class FirestoreService {
-//   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-//   static const String _collection = 'your_collection';
+class FirestoreService {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-//   // Initialize any additional setup if needed
-//   Future<void> init() async {
-//     // Add any initialization logic here
-//   }
+  // User collection
+  static const String _usersCollection = 'users';
 
-//   Future<List<dynamic>> getItems() async {
-//     try {
-//       final snapshot = await _firestore.collection(_collection).get();
-//       return snapshot.docs.map((doc) {
-//         // final data = doc.data();
-//         // NOTE FOR AI: Replace with your model construction
-//         // return YourModel(
-//         //   id: doc.id,
-//         //   field1: data['field1'] as String,
-//         //   field2: YourEnum.fromString(data['field2'] as String),
-//         //   timestamp: (data['timestamp'] as Timestamp).toDate(),
-//         // );
-//       }).toList();
-//     } catch (e) {
-//       throw 'Unable to load items. Please try again later.';
-//     }
-//   }
+  // Games collection
+  static const String _gamesCollection = 'games';
 
-//   Future<void> addItem(dynamic item) async {
-//     try {
-//       await _firestore.collection(_collection).doc(/* item.id */).set({
-//         // NOTE FOR AI: Replace with your model fields
-//         // 'field1': item.field1,
-//         // 'field2': item.field2.name,
-//         // 'timestamp': DateTime.now(),
-//       });
-//     } catch (e) {
-//       throw 'Failed to add item. Please try again.';
-//     }
-//   }
+  // Payments collection
+  static const String _paymentsCollection = 'payments';
 
-//   Future<void> removeItem(String id) async {
-//     try {
-//       await _firestore.collection(_collection).doc(id).delete();
-//     } catch (e) {
-//       throw 'Failed to remove item. Please try again.';
-//     }
-//   }
+  // Initialize any additional setup if needed
+  Future<void> init() async {
+    // Add any initialization logic here
+  }
 
-//   Future<void> clearItems() async {
-//     try {
-//       final snapshot = await _firestore.collection(_collection).get();
-//       final batch = _firestore.batch();
+  // User Management Methods
+  Future<void> createUser(String uid, Map<String, dynamic> userData) async {
+    try {
+      await _firestore.collection(_usersCollection).doc(uid).set(userData);
+    } catch (e) {
+      throw 'Failed to create user. Please try again.';
+    }
+  }
 
-//       for (var doc in snapshot.docs) {
-//         batch.delete(doc.reference);
-//       }
+  Future<Map<String, dynamic>?> getUser(String uid) async {
+    try {
+      final doc = await _firestore.collection(_usersCollection).doc(uid).get();
+      return doc.data();
+    } catch (e) {
+      throw 'Unable to load user data. Please try again later.';
+    }
+  }
 
-//       await batch.commit();
-//     } catch (e) {
-//       throw 'Failed to clear items. Please try again.';
-//     }
-//   }
-// }
+  Future<void> updateUser(String uid, Map<String, dynamic> userData) async {
+    try {
+      await _firestore.collection(_usersCollection).doc(uid).update(userData);
+    } catch (e) {
+      throw 'Failed to update user. Please try again.';
+    }
+  }
 
+  Future<void> deleteUser(String uid) async {
+    try {
+      await _firestore.collection(_usersCollection).doc(uid).delete();
+    } catch (e) {
+      throw 'Failed to delete user. Please try again.';
+    }
+  }
 
-// NOTE FOR AI: Usage in a ViewModel (DON'T REMOVE THIS):
-// /*
-// class YourViewModel extends BaseViewModel {
-//   final _firestoreService = locator<FirestoreService>();
-  
-//   Future<void> loadItems() async {
-//     setBusy(true);
-//     try {
-//       final items = await _firestoreService.getItems();
-//       // Handle items...
-//     } catch (e) {
-//       // Handle error...
-//     } finally {
-//       setBusy(false);
-//     }
-//   }
-// }
-// */
+  // Game Management Methods
+  Future<List<Map<String, dynamic>>> getGames() async {
+    try {
+      final snapshot = await _firestore.collection(_gamesCollection).get();
+      return snapshot.docs.map((doc) => doc.data()).toList();
+    } catch (e) {
+      throw 'Unable to load games. Please try again later.';
+    }
+  }
+
+  Future<void> addGame(Map<String, dynamic> gameData) async {
+    try {
+      await _firestore.collection(_gamesCollection).add(gameData);
+    } catch (e) {
+      throw 'Failed to add game. Please try again.';
+    }
+  }
+
+  Future<void> updateGame(String gameId, Map<String, dynamic> gameData) async {
+    try {
+      await _firestore
+          .collection(_gamesCollection)
+          .doc(gameId)
+          .update(gameData);
+    } catch (e) {
+      throw 'Failed to update game. Please try again.';
+    }
+  }
+
+  Future<void> deleteGame(String gameId) async {
+    try {
+      await _firestore.collection(_gamesCollection).doc(gameId).delete();
+    } catch (e) {
+      throw 'Failed to delete game. Please try again.';
+    }
+  }
+
+  // Payment Methods
+  Future<List<Map<String, dynamic>>> getPaymentHistory(String userId) async {
+    try {
+      final snapshot = await _firestore
+          .collection(_paymentsCollection)
+          .where('userId', isEqualTo: userId)
+          .orderBy('timestamp', descending: true)
+          .get();
+      return snapshot.docs.map((doc) => doc.data()).toList();
+    } catch (e) {
+      throw 'Unable to load payment history. Please try again later.';
+    }
+  }
+
+  Future<void> addPayment(Map<String, dynamic> paymentData) async {
+    try {
+      await _firestore.collection(_paymentsCollection).add(paymentData);
+    } catch (e) {
+      throw 'Failed to record payment. Please try again.';
+    }
+  }
+}

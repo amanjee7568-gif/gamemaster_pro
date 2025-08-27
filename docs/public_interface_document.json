@@ -1,16 +1,16 @@
 {
   "package_name": "com.walturn.my_app",
   "project_description": "A Flutter application built with Bloc/Cubit architecture to create a modular, maintainable mobile experience. The app features a startup screen for initialization, a home screen with counter functionality, comprehensive state management, and additional features like a support chat interface and games listing. Key capabilities include flavor configuration, modern state management, and template components for rapid development.",
-  "architecture_overview": "The application is structured using the Flutter Bloc/Cubit architecture pattern, with dedicated Cubits for feature management and state handled via immutable, Equatable-based state classes. The design emphasizes clear separation of concerns between UI components and business logic, utilizing modern state management patterns and providing a scalable, modular foundation for app development.",
+  "architecture_overview": "The application follows a modular, feature-driven architecture utilizing Flutter Bloc/Cubit pattern. Key components include dedicated Cubits for feature management, immutable state classes with Equatable, and a service-oriented design with external integrations like Firebase, OpenAI, and Telegram. The architecture emphasizes separation of concerns, scalability, and reactive state management.",
   "files": [
     {
       "name": "lib/app/app.dart",
-      "description": "Main application entry point that configures and initializes the Flutter app with theme settings and routing. This file serves as the root widget that bootstraps the entire application, setting up global theme configuration and defining the initial screen and navigation routes.",
-      "class_diagram": "@startuml\nclass App {\n  +Widget build(BuildContext context)\n}\nnote right: Main application entry point\nApp --> MaterialApp : creates\nApp --> StartupView : initial route\nApp --> SupportView : route '/support'\nApp --> ThemeData : configures\n@enduml",
+      "description": "Main application entry point that configures and initializes the Flutter app with theme settings and routing. This file serves as the root widget that bootstraps the entire application.",
+      "class_diagram": "@startuml\nclass App {\n  +Widget build(BuildContext context)\n}\nnote right of App\n  Main application entry point\n  Configures theme and routing\n  Sets initial startup view\nend note\nApp --> MaterialApp : creates\nApp --> StartupView : initializes\nApp --> ThemeData : configures\n@enduml",
       "methods": [
         {
           "name": "build",
-          "description": "Constructs the main MaterialApp widget with theme configuration, initial screen, and route definitions",
+          "description": "Constructs the main MaterialApp widget with theme configuration and initial route setup",
           "parameters": [
             "BuildContext context"
           ],
@@ -25,91 +25,128 @@
     },
     {
       "name": "lib/features/home/home_cubit.dart",
-      "description": "\u26a0\ufe0f TEMPLATE: A template Cubit for the Home screen that demonstrates basic Bloc/Cubit pattern with state management. Contains counter functionality as an example. This file should be completely replaced with actual business logic specific to your app's home screen requirements.",
-      "class_diagram": "@startuml\nclass HomeCubit {\n  +incrementCounter()\n  +resetCounter()\n  -_loadInitialData()\n}\n@enduml",
+      "description": "This file contains the HomeCubit class which manages the state for the home screen feature. It handles loading user data, displaying loading states, and updating user statistics. The cubit serves as the business logic component that connects the UI to the application state using the BLoC pattern.",
+      "class_diagram": "@startuml\nclass HomeCubit {\n  +loadUserData()\n  +updateStats(int gamesPlayed, int achievements)\n}\n\nHomeCubit --> \"1\" HomeState\nHomeCubit ..> flutter_bloc\nHomeCubit ..> home_state\n@enduml",
       "methods": [
         {
-          "name": "incrementCounter",
-          "description": "\u26a0\ufe0f TEMPLATE: Increments the counter state - replace with actual business logic",
+          "name": "loadUserData",
+          "description": "Initiates the user data loading process, emits loading state and then simulates API call to load user information including username and game statistics",
           "parameters": null,
           "return_type": "void"
         },
         {
-          "name": "resetCounter",
-          "description": "\u26a0\ufe0f TEMPLATE: Resets the counter to zero - replace with actual business logic",
-          "parameters": null,
-          "return_type": "void"
-        },
-        {
-          "name": "_loadInitialData",
-          "description": "\u26a0\ufe0f TEMPLATE: Initializes the cubit with default state - replace with actual data loading",
-          "parameters": null,
+          "name": "updateStats",
+          "description": "Updates the user's game statistics (games played and achievements) in the current state while preserving other state properties",
+          "parameters": [
+            "int gamesPlayed",
+            "int achievements"
+          ],
           "return_type": "void"
         }
       ],
       "dependencies": [
-        "flutter_bloc/flutter_bloc.dart",
-        "my_app/features/home/home_state.dart"
+        "package:flutter_bloc/flutter_bloc.dart",
+        "package:my_app/features/home/home_state.dart"
       ]
     },
     {
       "name": "lib/features/home/home_state.dart",
-      "description": "\u26a0\ufe0f TEMPLATE: State classes for the Home feature using Equatable for efficient state comparisons. Contains example states (HomeInitial, HomeLoaded) that should be replaced with actual state classes specific to your app's home screen needs.",
-      "class_diagram": "@startuml\nabstract class HomeState {\n  +props: List<Object>\n}\nclass HomeInitial extends HomeState\nclass HomeLoaded extends HomeState {\n  +counter: int\n}\n@enduml",
+      "description": "Defines the state management classes for the home feature, representing different states of the user's home screen experience including loading, loaded, and error states.",
+      "class_diagram": "@startuml\nclass HomeState {\n  +List<Object> props\n}\n\nclass HomeInitial {\n}\n\nclass HomeLoading {\n}\n\nclass HomeLoaded {\n  +String username\n  +int gamesPlayed\n  +int achievements\n  +HomeLoaded copyWith(String? username, int? gamesPlayed, int? achievements)\n}\n\nclass HomeError {\n  +String message\n}\n\nHomeState <|-- HomeInitial\nHomeState <|-- HomeLoading\nHomeState <|-- HomeLoaded\nHomeState <|-- HomeError\n@enduml",
       "methods": [
         {
-          "name": "props",
-          "description": "\u26a0\ufe0f TEMPLATE: Equatable property for state comparison - adapt to your actual state properties",
-          "parameters": null,
-          "return_type": "List<Object>"
+          "name": "copyWith",
+          "description": "Creates a new HomeLoaded instance with updated values, allowing for immutable state updates",
+          "parameters": [
+            "String? username",
+            "int? gamesPlayed",
+            "int? achievements"
+          ],
+          "return_type": "HomeLoaded"
         }
       ],
       "dependencies": [
-        "equatable/equatable.dart"
+        "package:equatable/equatable.dart"
       ]
     },
     {
       "name": "lib/features/home/home_view.dart",
-      "description": "This is a template home screen view file that demonstrates basic Flutter Bloc patterns. It serves as a starting point for implementing the actual home screen UI and should be completely replaced with application-specific functionality. The file shows example usage of BlocProvider, BlocBuilder, and basic state management but contains no real business logic.",
-      "class_diagram": "@startuml\nclass HomeView {\n  +Widget build(BuildContext context)\n}\nnote top of HomeView\n  WARNING: This is just a TEMPLATE\n  Should be completely replaced\n  with actual application UI\nend note\nHomeView --> \"1\" HomeCubit : uses\nHomeView --> \"1\" HomeState : observes\n@enduml",
+      "description": "This file defines the HomeView widget, which serves as the main dashboard screen of the application. It displays user-specific information such as welcome message, gaming statistics, game library access, and a placeholder for leaderboard functionality. The view integrates with the HomeCubit for state management and uses a BlocBuilder to reactively update UI components based on the current state (loading, loaded, error).",
+      "class_diagram": "@startuml\nclass HomeView {\n  - HomeCubit _cubit\n  + Widget build(BuildContext context)\n  - Widget _buildWelcomeCard(BuildContext context)\n  - Widget _buildStatsSection(BuildContext context)\n  - Widget _buildGameLibrarySection(BuildContext context)\n  - Widget _buildLeaderboardSection(BuildContext context)\n  - Widget _buildStatItem(String label, String value)\n}\n\nnote right of HomeView\n  Dependencies:\n  - flutter_bloc (BlocProvider, BlocBuilder)\n  - HomeCubit (state management)\n  - HomeState (state representation)\n  - AppColors (styling constants)\n  - TextStyles (shared text styles)\nend note\n@enduml",
       "methods": [
         {
           "name": "build",
-          "description": "Constructs the home screen UI by setting up BlocProvider and building the widget tree. This is a template implementation showing basic Bloc patterns that should be replaced with actual application UI.",
+          "description": "Constructs the main UI structure of the home screen using Flutter widgets. Sets up the BlocProvider to manage the HomeCubit lifecycle and creates the overall layout with an AppBar and scrollable content area.",
           "parameters": [
             "BuildContext context"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildWelcomeCard",
+          "description": "Creates a welcome card section that displays a personalized greeting to the user. Shows loading, error, or success states based on the current HomeState.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildStatsSection",
+          "description": "Builds a statistics section showing key user metrics like games played and achievements. Dynamically updates based on the current state from HomeCubit.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildGameLibrarySection",
+          "description": "Creates a section with a button to navigate to the game library. Currently just a placeholder with UI structure.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildLeaderboardSection",
+          "description": "Provides a placeholder section for future leaderboard functionality. Currently displays 'Coming Soon!' message.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildStatItem",
+          "description": "Helper method to create consistent stat display items with a value and label pair. Used within the stats section to show individual metrics.",
+          "parameters": [
+            "String label",
+            "String value"
           ],
           "return_type": "Widget"
         }
       ],
       "dependencies": [
-        "package:flutter/material.dart",
-        "package:flutter_bloc/flutter_bloc.dart",
-        "package:my_app/features/home/home_cubit.dart",
-        "package:my_app/features/home/home_state.dart",
-        "package:my_app/shared/app_colors.dart"
+        "flutter/material.dart",
+        "flutter_bloc/flutter_bloc.dart",
+        "my_app/features/home/home_cubit.dart",
+        "my_app/features/home/home_state.dart",
+        "my_app/shared/app_colors.dart",
+        "my_app/shared/text_style.dart"
       ]
     },
     {
       "name": "lib/features/startup/startup_view.dart",
-      "description": "A template startup/splash screen view that displays a loading indicator while performing initial app setup tasks before navigating to the main home screen. This file is meant to be completely replaced with actual startup logic and branding specific to the application.",
-      "class_diagram": "@startuml\nclass StartupView {\n  +State<StartupView> createState()\n}\n\nclass _StartupViewState {\n  -void initState()\n  -void _navigateToHome()\n  -Widget build(BuildContext context)\n}\n\nStartupView --> _StartupViewState\n_StartupViewState --> HomeView : navigates to\nnote top of StartupView : Template only - should be replaced\nnote right of _StartupViewState : Contains template startup logic\n@enduml",
+      "description": "This file contains the StartupView widget which serves as the initial splash screen of the application. It displays a branded loading screen while performing initial app initialization tasks and then navigates to the main HomeView once initialization is complete.",
+      "class_diagram": "@startuml\nclass StartupView {\n  +State<StartupView> createState()\n}\n\nclass _StartupViewState {\n  -Future<void> _initializeApp()\n  +Widget build(BuildContext context)\n}\n\nStartupView --> _StartupViewState\n_StartupViewState --> HomeView : navigates to\n_StartupViewState --> kcPrimaryGradient : uses\n_StartupViewState --> kcPrimaryColor : uses\n@enduml",
       "methods": [
         {
-          "name": "initState",
-          "description": "Initializes the state and triggers the startup navigation logic when the widget is first created",
+          "name": "_initializeApp",
+          "description": "Performs application initialization tasks and navigates to the home screen after completion",
           "parameters": [],
-          "return_type": "void"
-        },
-        {
-          "name": "_navigateToHome",
-          "description": "Template method that simulates startup tasks with a delay and navigates to the home screen",
-          "parameters": [],
-          "return_type": "void"
+          "return_type": "Future<void>"
         },
         {
           "name": "build",
-          "description": "Builds the UI for the startup splash screen with logo, app name, and loading indicator",
+          "description": "Builds the splash screen UI with branding elements and loading indicator",
           "parameters": [
             "BuildContext context"
           ],
@@ -406,20 +443,184 @@
     },
     {
       "name": "lib/services/firebase_auth_service.dart",
-      "description": "\u26a0\ufe0f TEMPLATE: Commented template for Firebase Authentication service. This file is entirely commented out and should only be uncommented when Firebase Authentication is needed in the project. Contains template authentication methods and setup instructions.",
-      "class_diagram": "@startuml\nnote as N1\n  File is completely commented out\n  Uncomment when Firebase Auth is needed\nend note\n@enduml",
-      "methods": [],
+      "description": "A service class that provides Firebase Authentication functionality for user management, including sign-in, sign-up, password reset, profile updates, and account deletion. This class acts as a wrapper around Firebase Auth SDK to provide a clean, application-specific interface for authentication operations.",
+      "class_diagram": "@startuml\nclass FirebaseAuthService {\n  -FirebaseAuth _auth\n  \n  +User? currentUser\n  +Stream<User?> authStateChanges\n  \n  +Future<UserCredential> signInWithEmailAndPassword(email, password)\n  +Future<UserCredential> createAccountWithEmailAndPassword(email, password)\n  +Future<void> signOut()\n  +Future<void> resetPassword(email)\n  +Future<void> updateProfile(displayName, photoURL)\n  +Future<void> updatePassword(newPassword)\n  +Future<void> deleteAccount()\n  +Future<void> sendEmailVerification()\n  +Future<UserCredential> reauthenticateUser(password)\n}\n\nFirebaseAuthService --> FirebaseAuth : uses\nFirebaseAuthService --> User : manages\nFirebaseAuthService --> UserCredential : returns\n@enduml",
+      "methods": [
+        {
+          "name": "signInWithEmailAndPassword",
+          "description": "Authenticates a user with their email and password credentials",
+          "parameters": [
+            "email",
+            "password"
+          ],
+          "return_type": "Future<UserCredential>"
+        },
+        {
+          "name": "createAccountWithEmailAndPassword",
+          "description": "Creates a new user account with email and password",
+          "parameters": [
+            "email",
+            "password"
+          ],
+          "return_type": "Future<UserCredential>"
+        },
+        {
+          "name": "signOut",
+          "description": "Signs out the currently authenticated user",
+          "parameters": [],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "resetPassword",
+          "description": "Sends a password reset email to the specified email address",
+          "parameters": [
+            "email"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateProfile",
+          "description": "Updates the current user's profile information including display name and photo URL",
+          "parameters": [
+            "displayName",
+            "photoURL"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updatePassword",
+          "description": "Updates the current user's password",
+          "parameters": [
+            "newPassword"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "deleteAccount",
+          "description": "Deletes the current user's account permanently",
+          "parameters": [],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "sendEmailVerification",
+          "description": "Sends an email verification link to the current user's email address",
+          "parameters": [],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "reauthenticateUser",
+          "description": "Re-authenticates the current user with their password for sensitive operations",
+          "parameters": [
+            "password"
+          ],
+          "return_type": "Future<UserCredential>"
+        },
+        {
+          "name": "authStateChanges",
+          "description": "Provides a stream that emits user authentication state changes",
+          "parameters": [],
+          "return_type": "Stream<User?>"
+        }
+      ],
       "dependencies": [
-        "firebase_auth/firebase_auth.dart (commented)"
+        "package:firebase_auth/firebase_auth.dart"
       ]
     },
     {
       "name": "lib/services/firestore_service.dart",
-      "description": "\u26a0\ufe0f TEMPLATE: Commented template for Firestore database service. This file is entirely commented out and should only be uncommented when Firestore database functionality is needed in the project. Contains template CRUD operations and setup instructions.",
-      "class_diagram": "@startuml\nnote as N1\n  File is completely commented out\n  Uncomment when Firestore is needed\nend note\n@enduml",
-      "methods": [],
+      "description": "A service class that provides centralized access to Firestore database operations for users, games, and payments. It abstracts the complexity of direct Firestore interactions and provides a clean API for data management throughout the application.",
+      "class_diagram": "@startuml\nclass FirestoreService {\n  - FirebaseFirestore _firestore\n  - String _usersCollection\n  - String _gamesCollection\n  - String _paymentsCollection\n  + Future<void> init()\n  + Future<void> createUser(String uid, Map<String, dynamic> userData)\n  + Future<Map<String, dynamic>?> getUser(String uid)\n  + Future<void> updateUser(String uid, Map<String, dynamic> userData)\n  + Future<void> deleteUser(String uid)\n  + Future<List<Map<String, dynamic>>> getGames()\n  + Future<void> addGame(Map<String, dynamic> gameData)\n  + Future<void> updateGame(String gameId, Map<String, dynamic> gameData)\n  + Future<void> deleteGame(String gameId)\n  + Future<List<Map<String, dynamic>>> getPaymentHistory(String userId)\n  + Future<void> addPayment(Map<String, dynamic> paymentData)\n}\n\nFirestoreService --> \"FirebaseFirestore\" : uses\n@enduml",
+      "methods": [
+        {
+          "name": "init",
+          "description": "Initializes the Firestore service and performs any required setup operations",
+          "parameters": [],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "createUser",
+          "description": "Creates a new user document in the users collection with the provided user ID and data",
+          "parameters": [
+            "String uid",
+            "Map<String, dynamic> userData"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getUser",
+          "description": "Retrieves user data from the users collection by user ID",
+          "parameters": [
+            "String uid"
+          ],
+          "return_type": "Future<Map<String, dynamic>?>"
+        },
+        {
+          "name": "updateUser",
+          "description": "Updates an existing user document with new data",
+          "parameters": [
+            "String uid",
+            "Map<String, dynamic> userData"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "deleteUser",
+          "description": "Removes a user document from the users collection",
+          "parameters": [
+            "String uid"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getGames",
+          "description": "Retrieves all game documents from the games collection",
+          "parameters": [],
+          "return_type": "Future<List<Map<String, dynamic>>>"
+        },
+        {
+          "name": "addGame",
+          "description": "Adds a new game document to the games collection",
+          "parameters": [
+            "Map<String, dynamic> gameData"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateGame",
+          "description": "Updates an existing game document with new data",
+          "parameters": [
+            "String gameId",
+            "Map<String, dynamic> gameData"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "deleteGame",
+          "description": "Removes a game document from the games collection",
+          "parameters": [
+            "String gameId"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getPaymentHistory",
+          "description": "Retrieves payment history for a specific user, ordered by timestamp",
+          "parameters": [
+            "String userId"
+          ],
+          "return_type": "Future<List<Map<String, dynamic>>>"
+        },
+        {
+          "name": "addPayment",
+          "description": "Records a new payment transaction in the payments collection",
+          "parameters": [
+            "Map<String, dynamic> paymentData"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
       "dependencies": [
-        "cloud_firestore/cloud_firestore.dart (commented)"
+        "package:cloud_firestore/cloud_firestore.dart"
       ]
     },
     {
@@ -619,5 +820,5 @@
   ],
   "sequence_diagram": "@startuml\nactor User\nparticipant App\nparticipant StartupView\nparticipant HomeView\nparticipant SupportView\nparticipant GamesCubit\n\nUser -> App: Launch App\nApp -> StartupView: Initialize\nStartupView -> HomeView: Navigate\nUser -> HomeView: View Games\nHomeView -> GamesCubit: Load Games\nGamesCubit -> HomeView: Display Game List\nUser -> SupportView: Open Support Chat\nUser -> SupportView: Send Message\nSupportView -> OpenAIService: Generate Response\nOpenAIService -> SupportView: Return AI Response\n@enduml",
   "state_management_flow": "State management is implemented using the Flutter Bloc/Cubit pattern across multiple features. Each feature (Home, Support, Games) has a dedicated Cubit that manages its state. States are immutable classes extending Equatable, providing efficient comparisons. State transitions occur through emit() calls, with BlocBuilder and BlocListener widgets enabling reactive UI updates. The approach ensures clean separation of concerns and predictable state management.",
-  "navigation_flow": "Navigation is managed through standard Flutter routing with predefined routes in the App widget. The startup view automatically transitions to the home view, while additional routes like '/support' and potentially '/games' are configured. The current implementation uses Navigator for screen transitions, with potential for future enhancement using more advanced routing solutions like GoRouter or AutoRoute."
+  "navigation_flow": "Navigation is managed through standard Flutter routing with predefined routes in the App widget. The startup view automatically transitions to the home view, while additional routes like '/support' and '/games' are configured. The current implementation uses Navigator for screen transitions, with a structured approach that allows easy extension and maintenance of navigation paths."
 }
