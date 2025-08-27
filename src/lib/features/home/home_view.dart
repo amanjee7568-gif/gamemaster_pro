@@ -24,7 +24,8 @@ class HomeView extends StatelessWidget {
       child: Scaffold(
         // ⚠️ TEMPLATE: Replace with your actual app bar
         appBar: AppBar(
-          title: const Text('Chef\'s Kitchen 👨‍🍳'), // ⚠️ TEMPLATE: Change title
+          title:
+              const Text('Chef\'s Kitchen 👨‍🍳'), // ⚠️ TEMPLATE: Change title
           backgroundColor: kcPrimaryColor,
           foregroundColor: Colors.white,
           actions: [
@@ -33,7 +34,9 @@ class HomeView extends StatelessWidget {
               icon: const Icon(Icons.restaurant),
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Kitchen orders coming up! 🍽️')), // ⚠️ TEMPLATE: Change message
+                  const SnackBar(
+                      content: Text(
+                          'Kitchen orders coming up! 🍽️')), // ⚠️ TEMPLATE: Change message
                 );
               },
             ),
@@ -55,9 +58,12 @@ class HomeView extends StatelessWidget {
                           // ⚠️ TEMPLATE: Replace with your actual welcome message
                           Text(
                             '🍳 Welcome to the Kitchen! 🍳', // ⚠️ TEMPLATE: Change title
-                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 12),
@@ -90,20 +96,28 @@ class HomeView extends StatelessWidget {
                                 // ⚠️ TEMPLATE: Replace with your actual state data display
                                 Text(
                                   'Dishes Cooked: ${state.counter} 🍽️', // ⚠️ TEMPLATE: Change data display
-                                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: kcPrimaryColor,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: kcPrimaryColor,
+                                      ),
                                 ),
                                 const SizedBox(height: 20),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     // ⚠️ TEMPLATE: Replace with your actual action buttons
                                     ElevatedButton.icon(
-                                      onPressed: () => context.read<HomeCubit>().incrementCounter(), // ⚠️ TEMPLATE: Change action
-                                      icon: const Icon(Icons.restaurant_menu), // ⚠️ TEMPLATE: Change icon
-                                      label: const Text('Cook!'), // ⚠️ TEMPLATE: Change label
+                                      onPressed: () => context
+                                          .read<HomeCubit>()
+                                          .incrementCounter(), // ⚠️ TEMPLATE: Change action
+                                      icon: const Icon(Icons
+                                          .restaurant_menu), // ⚠️ TEMPLATE: Change icon
+                                      label: const Text(
+                                          'Cook!'), // ⚠️ TEMPLATE: Change label
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: kcPrimaryColor,
                                         foregroundColor: Colors.white,
@@ -111,9 +125,13 @@ class HomeView extends StatelessWidget {
                                     ),
                                     // ⚠️ TEMPLATE: Replace with your actual secondary button
                                     OutlinedButton.icon(
-                                      onPressed: () => context.read<HomeCubit>().resetCounter(), // ⚠️ TEMPLATE: Change action
-                                      icon: const Icon(Icons.cleaning_services), // ⚠️ TEMPLATE: Change icon
-                                      label: const Text('Clean Kitchen'), // ⚠️ TEMPLATE: Change label
+                                      onPressed: () => context
+                                          .read<HomeCubit>()
+                                          .resetCounter(), // ⚠️ TEMPLATE: Change action
+                                      icon: const Icon(Icons
+                                          .cleaning_services), // ⚠️ TEMPLATE: Change icon
+                                      label: const Text(
+                                          'Clean Kitchen'), // ⚠️ TEMPLATE: Change label
                                     ),
                                   ],
                                 ),
@@ -147,19 +165,24 @@ class HomeView extends StatelessWidget {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  title: const Text('🍳 Kitchen Status'), // ⚠️ TEMPLATE: Change dialog title
-                                  content: const Text('Your code has been perfectly seasoned and is ready to serve! This kitchen runs on Flutter Cubit with a dash of Equatable. Bon appétit! 👨‍🍳✨'), // ⚠️ TEMPLATE: Change dialog content
+                                  title: const Text(
+                                      '🍳 Kitchen Status'), // ⚠️ TEMPLATE: Change dialog title
+                                  content: const Text(
+                                      'Your code has been perfectly seasoned and is ready to serve! This kitchen runs on Flutter Cubit with a dash of Equatable. Bon appétit! 👨‍🍳✨'), // ⚠️ TEMPLATE: Change dialog content
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(context),
-                                      child: const Text('Delicious! 😋'), // ⚠️ TEMPLATE: Change button text
+                                      child: const Text(
+                                          'Delicious! 😋'), // ⚠️ TEMPLATE: Change button text
                                     ),
                                   ],
                                 ),
                               );
                             },
-                            icon: const Icon(Icons.info_outline), // ⚠️ TEMPLATE: Change icon
-                            label: const Text('Kitchen Status'), // ⚠️ TEMPLATE: Change label
+                            icon: const Icon(
+                                Icons.info_outline), // ⚠️ TEMPLATE: Change icon
+                            label: const Text(
+                                'Kitchen Status'), // ⚠️ TEMPLATE: Change label
                             style: ElevatedButton.styleFrom(
                               backgroundColor: kcSecondaryColor,
                               foregroundColor: Colors.white,

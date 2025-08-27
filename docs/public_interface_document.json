@@ -1,16 +1,16 @@
 {
   "package_name": "com.walturn.my_app",
   "project_description": "A Flutter application built with Bloc/Cubit architecture to create a modular, maintainable mobile experience. The app features a startup screen for initialization, a home screen with counter functionality, and comprehensive state management. Key functionalities include flavor configuration (development and production), basic Bloc state management demonstrating core interaction patterns, and template components for rapid development.",
-  "architecture_overview": "Built using the Flutter Bloc/Cubit architecture pattern, the application separates concerns through dedicated Cubits for each feature. State management is handled via Cubit classes that emit immutable states using Equatable for efficient comparisons. The app utilizes simple Flutter navigation and demonstrates modern state management patterns with clear separation between UI and business logic.",
+  "architecture_overview": "The application is structured using the Flutter Bloc/Cubit architecture pattern, with dedicated Cubits for feature management and state handled via immutable, Equatable-based state classes. The design emphasizes clear separation of concerns between UI components and business logic, utilizing modern state management patterns and providing a scalable foundation for app development.",
   "files": [
     {
       "name": "lib/app/app.dart",
-      "description": "Root application widget that configures MaterialApp with theme settings, dark theme support, and sets StartupView as the initial screen",
-      "class_diagram": "@startuml\nclass App {\n  +build(BuildContext context)\n}\n\nnote right of App: Configures MaterialApp,\\ntheme, and initial route\n@enduml",
+      "description": "Main application entry point that configures and initializes the Flutter app with theme settings and initial screen routing. This file serves as the root widget that bootstraps the entire application.",
+      "class_diagram": "@startuml\nclass App {\n  +Widget build(BuildContext context)\n}\nnote right of App\n  Main application widget that configures\n  MaterialApp with theme and routing\nend note\nApp --> \"1\" MaterialApp : creates\nApp --> \"1\" StartupView : routes to\nApp --> ThemeData : configures\n@enduml",
       "methods": [
         {
           "name": "build",
-          "description": "Builds the root MaterialApp with theme configuration and initial route",
+          "description": "Constructs the main MaterialApp widget with theme configuration and sets the initial home screen",
           "parameters": [
             "BuildContext context"
           ],
@@ -18,31 +18,31 @@
         }
       ],
       "dependencies": [
-        "flutter/material.dart",
-        "my_app/features/startup/startup_view.dart",
-        "my_app/shared/app_colors.dart"
+        "package:flutter/material.dart",
+        "package:my_app/features/startup/startup_view.dart",
+        "package:my_app/shared/app_colors.dart"
       ]
     },
     {
       "name": "lib/features/home/home_cubit.dart",
-      "description": "⚠️ TEMPLATE: A template Cubit for the Home screen that demonstrates basic Bloc/Cubit pattern with state management. Contains counter functionality as an example. This file should be completely replaced with actual business logic specific to your app's home screen requirements.",
+      "description": "\u26a0\ufe0f TEMPLATE: A template Cubit for the Home screen that demonstrates basic Bloc/Cubit pattern with state management. Contains counter functionality as an example. This file should be completely replaced with actual business logic specific to your app's home screen requirements.",
       "class_diagram": "@startuml\nclass HomeCubit {\n  +incrementCounter()\n  +resetCounter()\n  -_loadInitialData()\n}\n@enduml",
       "methods": [
         {
           "name": "incrementCounter",
-          "description": "⚠️ TEMPLATE: Increments the counter state - replace with actual business logic",
+          "description": "\u26a0\ufe0f TEMPLATE: Increments the counter state - replace with actual business logic",
           "parameters": null,
           "return_type": "void"
         },
         {
           "name": "resetCounter",
-          "description": "⚠️ TEMPLATE: Resets the counter to zero - replace with actual business logic",
+          "description": "\u26a0\ufe0f TEMPLATE: Resets the counter to zero - replace with actual business logic",
           "parameters": null,
           "return_type": "void"
         },
         {
           "name": "_loadInitialData",
-          "description": "⚠️ TEMPLATE: Initializes the cubit with default state - replace with actual data loading",
+          "description": "\u26a0\ufe0f TEMPLATE: Initializes the cubit with default state - replace with actual data loading",
           "parameters": null,
           "return_type": "void"
         }
@@ -54,12 +54,12 @@
     },
     {
       "name": "lib/features/home/home_state.dart",
-      "description": "⚠️ TEMPLATE: State classes for the Home feature using Equatable for efficient state comparisons. Contains example states (HomeInitial, HomeLoaded) that should be replaced with actual state classes specific to your app's home screen needs.",
+      "description": "\u26a0\ufe0f TEMPLATE: State classes for the Home feature using Equatable for efficient state comparisons. Contains example states (HomeInitial, HomeLoaded) that should be replaced with actual state classes specific to your app's home screen needs.",
       "class_diagram": "@startuml\nabstract class HomeState {\n  +props: List<Object>\n}\nclass HomeInitial extends HomeState\nclass HomeLoaded extends HomeState {\n  +counter: int\n}\n@enduml",
       "methods": [
         {
           "name": "props",
-          "description": "⚠️ TEMPLATE: Equatable property for state comparison - adapt to your actual state properties",
+          "description": "\u26a0\ufe0f TEMPLATE: Equatable property for state comparison - adapt to your actual state properties",
           "parameters": null,
           "return_type": "List<Object>"
         }
@@ -70,12 +70,12 @@
     },
     {
       "name": "lib/features/home/home_view.dart",
-      "description": "⚠️ TEMPLATE: A template home screen view that demonstrates Bloc/Cubit UI patterns with BlocProvider and BlocBuilder. Uses a 'Chef's Kitchen' theme as example content. This entire file should be replaced with your actual home screen UI and functionality.",
-      "class_diagram": "@startuml\nclass HomeView {\n  +build(BuildContext context)\n}\n@enduml",
+      "description": "This is a template home screen view file that demonstrates basic Flutter Bloc patterns. It serves as a starting point for implementing the actual home screen UI and should be completely replaced with application-specific functionality. The file shows example usage of BlocProvider, BlocBuilder, and basic state management but contains no real business logic.",
+      "class_diagram": "@startuml\nclass HomeView {\n  +Widget build(BuildContext context)\n}\nnote top of HomeView\n  WARNING: This is just a TEMPLATE\n  Should be completely replaced\n  with actual application UI\nend note\nHomeView --> \"1\" HomeCubit : uses\nHomeView --> \"1\" HomeState : observes\n@enduml",
       "methods": [
         {
           "name": "build",
-          "description": "⚠️ TEMPLATE: Builds the home screen UI with BlocProvider and BlocBuilder - replace with actual UI",
+          "description": "Constructs the home screen UI by setting up BlocProvider and building the widget tree. This is a template implementation showing basic Bloc patterns that should be replaced with actual application UI.",
           "parameters": [
             "BuildContext context"
           ],
@@ -83,43 +83,43 @@
         }
       ],
       "dependencies": [
-        "flutter/material.dart",
-        "flutter_bloc/flutter_bloc.dart",
-        "my_app/features/home/home_cubit.dart",
-        "my_app/features/home/home_state.dart",
-        "my_app/shared/app_colors.dart"
+        "package:flutter/material.dart",
+        "package:flutter_bloc/flutter_bloc.dart",
+        "package:my_app/features/home/home_cubit.dart",
+        "package:my_app/features/home/home_state.dart",
+        "package:my_app/shared/app_colors.dart"
       ]
     },
     {
       "name": "lib/features/startup/startup_view.dart",
-      "description": "⚠️ TEMPLATE: A template startup/splash screen that demonstrates basic Flutter navigation patterns. Uses a 'Chef's Kitchen' theme as example content. This file should be replaced with your actual startup screen design and initialization logic.",
-      "class_diagram": "@startuml\nclass StartupView {\n  +createState()\n}\nclass _StartupViewState {\n  +initState()\n  +build(BuildContext context)\n  -_navigateToHome()\n}\n@enduml",
+      "description": "A template startup/splash screen view that displays a loading indicator while performing initial app setup tasks before navigating to the main home screen. This file is meant to be completely replaced with actual startup logic and branding specific to the application.",
+      "class_diagram": "@startuml\nclass StartupView {\n  +State<StartupView> createState()\n}\n\nclass _StartupViewState {\n  -void initState()\n  -void _navigateToHome()\n  -Widget build(BuildContext context)\n}\n\nStartupView --> _StartupViewState\n_StartupViewState --> HomeView : navigates to\nnote top of StartupView : Template only - should be replaced\nnote right of _StartupViewState : Contains template startup logic\n@enduml",
       "methods": [
         {
           "name": "initState",
-          "description": "⚠️ TEMPLATE: Initializes the startup sequence - replace with actual startup logic",
-          "parameters": null,
+          "description": "Initializes the state and triggers the startup navigation logic when the widget is first created",
+          "parameters": [],
+          "return_type": "void"
+        },
+        {
+          "name": "_navigateToHome",
+          "description": "Template method that simulates startup tasks with a delay and navigates to the home screen",
+          "parameters": [],
           "return_type": "void"
         },
         {
           "name": "build",
-          "description": "⚠️ TEMPLATE: Builds the splash screen UI - replace with actual startup screen design",
+          "description": "Builds the UI for the startup splash screen with logo, app name, and loading indicator",
           "parameters": [
             "BuildContext context"
           ],
           "return_type": "Widget"
-        },
-        {
-          "name": "_navigateToHome",
-          "description": "⚠️ TEMPLATE: Handles navigation to home screen - replace with actual startup tasks and navigation logic",
-          "parameters": null,
-          "return_type": "Future<void>"
         }
       ],
       "dependencies": [
-        "flutter/material.dart",
-        "my_app/features/home/home_view.dart",
-        "my_app/shared/app_colors.dart"
+        "package:flutter/material.dart",
+        "package:my_app/features/home/home_view.dart",
+        "package:my_app/shared/app_colors.dart"
       ]
     },
     {
@@ -331,7 +331,7 @@
     },
     {
       "name": "lib/services/firebase_auth_service.dart",
-      "description": "⚠️ TEMPLATE: Commented template for Firebase Authentication service. This file is entirely commented out and should only be uncommented when Firebase Authentication is needed in the project. Contains template authentication methods and setup instructions.",
+      "description": "\u26a0\ufe0f TEMPLATE: Commented template for Firebase Authentication service. This file is entirely commented out and should only be uncommented when Firebase Authentication is needed in the project. Contains template authentication methods and setup instructions.",
       "class_diagram": "@startuml\nnote as N1\n  File is completely commented out\n  Uncomment when Firebase Auth is needed\nend note\n@enduml",
       "methods": [],
       "dependencies": [
@@ -340,7 +340,7 @@
     },
     {
       "name": "lib/services/firestore_service.dart",
-      "description": "⚠️ TEMPLATE: Commented template for Firestore database service. This file is entirely commented out and should only be uncommented when Firestore database functionality is needed in the project. Contains template CRUD operations and setup instructions.",
+      "description": "\u26a0\ufe0f TEMPLATE: Commented template for Firestore database service. This file is entirely commented out and should only be uncommented when Firestore database functionality is needed in the project. Contains template CRUD operations and setup instructions.",
       "class_diagram": "@startuml\nnote as N1\n  File is completely commented out\n  Uncomment when Firestore is needed\nend note\n@enduml",
       "methods": [],
       "dependencies": [

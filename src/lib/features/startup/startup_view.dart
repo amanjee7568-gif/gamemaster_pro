@@ -46,7 +46,8 @@ class _StartupViewState extends State<StartupView> {
     // ⚠️ TEMPLATE: Replace with your actual startup screen design
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(gradient: kcPrimaryGradient), // ⚠️ TEMPLATE: Change gradient
+        decoration: const BoxDecoration(
+            gradient: kcPrimaryGradient), // ⚠️ TEMPLATE: Change gradient
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
