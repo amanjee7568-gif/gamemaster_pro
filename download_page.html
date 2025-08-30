@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameMaster Pro - Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .download-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 10px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        .version-info {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 5px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4ECDC4;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 GameMaster Pro</h1>
+        <p style="text-align: center; font-size: 1.2em; margin-bottom: 40px;">
+            A sophisticated Flutter application with Bloc/Cubit architecture
+        </p>
+
+        <div class="download-section">
+            <h2>📱 Android Downloads</h2>
+            <div class="version-info">
+                <strong>Development Build</strong> - Latest features with debugging enabled
+            </div>
+            <a href="./builds/app-development-release.apk" class="download-btn" download>
+                📱 Download Development APK
+            </a>
+            
+            <div class="version-info">
+                <strong>Production Build</strong> - Optimized for release
+            </div>
+            <a href="./builds/app-production-release.apk" class="download-btn" download>
+                🚀 Download Production APK
+            </a>
+        </div>
+
+        <div class="download-section">
+            <h2>📋 Project Resources</h2>
+            <a href="./src.zip" class="download-btn" download>
+                💾 Download Source Code
+            </a>
+            <a href="./docs/user-manual.pdf" class="download-btn" download>
+                📖 Download User Manual
+            </a>
+            <a href="./docs/api-documentation.pdf" class="download-btn" download>
+                🔧 Download API Docs
+            </a>
+        </div>
+
+        <div class="download-section">
+            <h2>🌟 Features</h2>
+            <ul class="feature-list">
+                <li>Bloc/Cubit Architecture for clean state management</li>
+                <li>Flavor Configuration (Development & Production)</li>
+                <li>Template Components for rapid development</li>
+                <li>Responsive Design across all devices</li>
+                <li>Support Chat with AI-powered responses</li>
+                <li>Games Management system</li>
+                <li>Modern styling and typography</li>
+            </ul>
+        </div>
+
+        <div class="download-section">
+            <h2>💻 Installation Instructions</h2>
+            <p><strong>For Android:</strong></p>
+            <ol>
+                <li>Enable "Unknown Sources" in your Android settings</li>
+                <li>Download the APK file using the button above</li>
+                <li>Tap the downloaded file to install</li>
+                <li>Follow the on-screen prompts</li>
+            </ol>
+        </div>
+
+        <footer style="text-align: center; margin-top: 40px; opacity: 0.8;">
+            <p>GameMaster Pro - Built with Flutter & ❤️</p>
+        </footer>
+    </div>
+
+    <script>
+        // Add download tracking
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const fileName = this.getAttribute('href');
+                console.log('Download started:', fileName);
+                
+                // Optional: Add analytics tracking here
+                // gtag('event', 'download', { 'file_name': fileName });
+            });
+        });
+
+        // Check if file exists before download
+        function checkFileExists(url) {
+            return fetch(url, { method: 'HEAD' })
+                .then(response => response.ok)
+                .catch(() => false);
+        }
+    </script>
+</body>
+</html>
