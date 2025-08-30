@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Download Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        .generator-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .download-link {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .download-link:hover {
+            background: #1e7e34;
+        }
+        #generatedLinks {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e9ecef;
+            border-radius: 5px;
+        }
+        .code-block {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 Direct Download Link Generator</h1>
+        <p>Generate direct download links for your files with custom styling and functionality.</p>
+
+        <div class="generator-section">
+            <h2>File Information</h2>
+            <div class="form-group">
+                <label for="fileName">File Name:</label>
+                <input type="text" id="fileName" placeholder="e.g., GameMaster-Pro-v1.0.apk">
+            </div>
+            <div class="form-group">
+                <label for="fileUrl">File URL or Path:</label>
+                <input type="text" id="fileUrl" placeholder="e.g., ./builds/app-release.apk or https://example.com/file.zip">
+            </div>
+            <div class="form-group">
+                <label for="fileSize">File Size (optional):</label>
+                <input type="text" id="fileSize" placeholder="e.g., 25.3 MB">
+            </div>
+            <div class="form-group">
+                <label for="fileDescription">Description:</label>
+                <textarea id="fileDescription" rows="3" placeholder="Brief description of the file"></textarea>
+            </div>
+        </div>
+
+        <div class="generator-section">
+            <h2>Link Style</h2>
+            <div class="form-group">
+                <label for="linkStyle">Choose Style:</label>
+                <select id="linkStyle">
+                    <option value="button">Button Style</option>
+                    <option value="badge">Badge Style</option>
+                    <option value="card">Card Style</option>
+                    <option value="minimal">Minimal Link</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="linkColor">Color Theme:</label>
+                <select id="linkColor">
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="red">Red</option>
+                    <option value="purple">Purple</option>
+                    <option value="orange">Orange</option>
+                </select>
+            </div>
+        </div>
+
+        <button onclick="generateDownloadLink()">🚀 Generate Download Link</button>
+        <button onclick="generateMultipleFiles()">📂 Generate File Bundle</button>
+        <button onclick="clearResults()">🗑️ Clear</button>
+
+        <div id="generatedLinks"></div>
+    </div>
+
+    <script>
+        function generateDownloadLink() {
+            const fileName = document.getElementById('fileName').value || 'download-file';
+            const fileUrl = document.getElementById('fileUrl').value || '#';
+            const fileSize = document.getElementById('fileSize').value;
+            const fileDescription = document.getElementById('fileDescription').value;
+            const linkStyle = document.getElementById('linkStyle').value;
+            const linkColor = document.getElementById('linkColor').value;
+
+            const linkHtml = createDownloadLink(fileName, fileUrl, fileSize, fileDescription, linkStyle, linkColor);
+            
+            document.getElementById('generatedLinks').innerHTML = `
+                <h3>Generated Download Link</h3>
+                <div style="margin: 20px 0;">
+                    <h4>Preview:</h4>
+                    ${linkHtml}
+                </div>
+                <div>
+                    <h4>HTML Code:</h4>
+                    <div class="code-block">${escapeHtml(linkHtml)}</div>
+                    <button onclick="copyToClipboard('${escapeHtml(linkHtml).replace(/'/g, "\\'")}')">📋 Copy HTML</button>
+                </div>
+            `;
+        }
+
+        function createDownloadLink(fileName, fileUrl, fileSize, description, style, color) {
+            const sizeText = fileSize ? ` (${fileSize})` : '';
+            const descText = description ? `<div style="font-size: 0.9em; opacity: 0.8; margin-top: 5px;">${description}</div>` : '';
+            
+            const colorSchemes = {
+                blue: { bg: '#007bff', hover: '#0056b3' },
+                green: { bg: '#28a745', hover: '#1e7e34' },
+                red: { bg: '#dc3545', hover: '#c82333' },
+                purple: { bg: '#6f42c1', hover: '#5a32a3' },
+                orange: { bg: '#fd7e14', hover: '#e8650e' }
+            };
+            
+            const colors = colorSchemes[color] || colorSchemes.blue;
+            
+            switch(style) {
+                case 'button':
+                    return `<a href="${fileUrl}" download="${fileName}" style="display: inline-block; background: ${colors.bg}; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background 0.3s;" onmouseover="this.style.background='${colors.hover}'" onmouseout="this.style.background='${colors.bg}'">📥 ${fileName}${sizeText}</a>${descText}`;
+                
+                case 'badge':
+                    return `<span style="display: inline-block; background: ${colors.bg}; color: white; padding: 6px 12px; border-radius: 15px; font-size: 0.9em;"><a href="${fileUrl}" download="${fileName}" style="color: white; text-decoration: none;">⬇️ ${fileName}${sizeText}</a></span>${descText}`;
+                
+                case 'card':
+                    return `<div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin: 10px 0; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"><h4 style="margin: 0 0 10px 0; color: ${colors.bg};">${fileName}</h4>${description ? `<p style="margin: 10px 0; color: #666;">${description}</p>` : ''}<a href="${fileUrl}" download="${fileName}" style="display: inline-block; background: ${colors.bg}; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px; font-size: 0.9em;">Download${sizeText}</a></div>`;
+                
+                case 'minimal':
+                default:
+                    return `<a href="${fileUrl}" download="${fileName}" style="color: ${colors.bg}; text-decoration: underline;">📁 ${fileName}${sizeText}</a>${descText}`;
+            }
+        }
+
+        function generateMultipleFiles() {
+            const files = [
+                { name: 'GameMaster-Development.apk', url: './builds/app-development-release.apk', size: '28.5 MB', desc: 'Development build with debugging' },
+                { name: 'GameMaster-Production.apk', url: './builds/app-production-release.apk', size: '25.3 MB', desc: 'Optimized production build' },
+                { name: 'Source-Code.zip', url: './source/gamemaster-source.zip', size: '2.1 MB', desc: 'Complete Flutter source code' },
+                { name: 'User-Manual.pdf', url: './docs/user-manual.pdf', size: '1.8 MB', desc: 'Complete user documentation' }
+            ];
+
+            const style = document.getElementById('linkStyle').value;
+            const color = document.getElementById('linkColor').value;
+
+            let html = '<h3>File Bundle - Multiple Downloads</h3><div style="display: grid; gap: 10px;">';
+            files.forEach(file => {
+                html += createDownloadLink(file.name, file.url, file.size, file.desc, style, color);
+            });
+            html += '</div>';
+
+            const codeBlock = files.map(file => 
+                createDownloadLink(file.name, file.url, file.size, file.desc, style, color)
+            ).join('\n');
+
+            document.getElementById('generatedLinks').innerHTML = `
+                ${html}
+                <div style="margin-top: 30px;">
+                    <h4>HTML Code for All Files:</h4>
+                    <div class="code-block">${escapeHtml(codeBlock)}</div>
+                    <button onclick="copyToClipboard('${escapeHtml(codeBlock).replace(/'/g, "\\'")}')">📋 Copy All HTML</button>
+                </div>
+            `;
+        }
+
+        function clearResults() {
+            document.getElementById('generatedLinks').innerHTML = '';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text.replace(/\\'/g, "'")).then(() => {
+                alert('HTML copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text.replace(/\\'/g, "'");
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('HTML copied to clipboard!');
+            });
+        }
+
+        // Example usage on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('fileName').value = 'GameMaster-Pro-v1.0.apk';
+            document.getElementById('fileUrl').value = './builds/app-production-release.apk';
+            document.getElementById('fileSize').value = '25.3 MB';
+            document.getElementById('fileDescription').value = 'GameMaster Pro production build - optimized Flutter app with Bloc architecture';
+        });
+    </script>
+</body>
+</html>
